@@ -1,0 +1,21 @@
+#!/bin/bash
+
+filePermission=600
+folderPermission=740
+
+mediaRoot="MEDIA_ROOT"
+
+file=$1
+itsBirthday=$2
+# Notice MEDIA_ROOT from "choose folder"
+# comes with a slash at the end
+itsEndingFolder=$mediaRoot$itsBirthday
+
+if [ ! -d $itsEndingFolder ]
+then
+  mkdir $itsEndingFolder
+  chmod $folderPermission $itsEndingFolder
+fi
+
+mv "$file" $itsEndingFolder && \
+  chmod -R $filePermission $itsEndingFolder/*

@@ -1,0 +1,18 @@
+#/bin/bash
+
+mediaFolder=$1
+wd="$(dirname $0)"
+scriptsPath="$HOME/Library/Scripts/Folder Action Scripts"
+
+sed s@MEDIA_ROOT@$(pwd)@g "$wd/basket.scpt.dist" > "$wd/basket.scpt"
+sed s@MEDIA_ROOT@$mediaFolder@g "$wd/tidyup.dist" > "$wd/tidyup"
+
+if [[ ! -d $scriptsPath ]]; then
+  mkdir -p $scriptsPath
+fi
+
+cp "$wd/basket.scpt" "$scriptsPath"
+
+chmod 740 "$wd/tidyup"
+
+echo $scriptsPath

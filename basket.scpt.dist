@@ -1,0 +1,21 @@
+on adding folder items to theAttachedFolder after receiving theNewItems
+  tell application "Finder"
+    repeat with theItem in theNewItems
+      try
+        set {theCreationDateOfTheItem, theCurrentDate} to {(current date), (current date)}
+
+        set {year:y, month:m, day:d} to (creation date of (get info for theItem))
+        -- pad the day and month if single digit
+        set day_str to text -1 thru -2 of ("00" & d)
+        set mon_str to text -1 thru -2 of ("00" & (m * 1))
+        -- make ISO8601 date string without time
+        set theCreationDateOfTheItem to (day_str & "-" & mon_str & "-" & y) as string
+        set theItemPath to POSIX path of theItem
+
+        do shell script "MEDIA_ROOT/tidyup " & quoted form of theItemPath & " " & theCreationDateOfTheItem as string
+      on error errorMessage
+        display alert "error" message (errorMessage)
+      end try
+    end repeat
+  end tell
+end adding folder items to
